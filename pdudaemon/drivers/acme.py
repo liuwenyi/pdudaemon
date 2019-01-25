@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python3
 
 #  Copyright 2015 BayLibre SAS
 #  Author Marc Titinger <mtitinger@baylibre.com>
@@ -24,7 +24,8 @@
 
 import logging
 from pdudaemon.drivers.acmebase import ACMEBase
-log = logging.getLogger(__name__)
+import os
+log = logging.getLogger("pdud.drivers." + os.path.basename(__file__))
 
 
 class ACME(ACMEBase):
@@ -50,7 +51,7 @@ class ACME(ACMEBase):
         log.debug("Finished entering outlet (nop)")
 
     def _port_interaction(self, command, port_number):
-        if not self.cmd.has_key(command):
+        if command not in self.cmd:
             acme_command = 'echo "unknown command {}"'.format(command)
         else:
             acme_command = '{} {}'.format(self.cmd[command], port_number)
